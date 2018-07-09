@@ -1,0 +1,25 @@
+﻿using CheckFace.Controllers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
+
+namespace CheckFace
+{
+    public class RouteConfig
+    {
+        public static void RegisterRoutes(RouteCollection routes)
+        {
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            var home = nameof(HomeController).Replace("Controller", string.Empty);
+            routes.MapRoute(
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = home, action = nameof(HomeController.Start), id = UrlParameter.Optional }
+            );
+        }
+    }
+}

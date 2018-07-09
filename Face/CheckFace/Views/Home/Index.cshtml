@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+
+<button onclick="upload()">点击上传图片</button>
+<input type="file" name="fileToUpload" id="fileToUpload" onchange="openFile(event)" accept="image/*">
+<div>
+    <img id="showimg" style="width:500px;height:500px"/>
+</div>
+<script>
+    function upload() {
+        $("#fileToUpload").click();
+    }
+    var openFile = function (event) {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function () {
+            var database64 = getBase64Image(reader.result);
+            document.getElementById("showimg").src = database64;
+            $.ajax({
+                url: "/Home/UploadImage",
+                type: "POST",
+                data: { "imgdatabase": "123"},
+                success: function (data) {
+                    $("#headpng").html(data);
+                }
+            });
+
+        };
+        reader.readAsDataURL(input.files[0]);
+
+    };
+    function getBase64Image(imgElem) {
+        return imgElem.replace("/^data:image\/(jpeg|jpg);base64,/", "");
+    }
+</script>
